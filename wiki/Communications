@@ -1,0 +1,39 @@
+## How to communicate with the board
+
+ESP-NOW
+***
+ESP-NOW is a proprietary protocol by Espressif, availablele only on boards with ESP32, it was chosen for its programming simplicity and because it does not require additional hardware, the range is still excellent.
+Looking at the remote control code, you will understand that communicating with C.R.A.S.H. is really simple: the remote send an array of 5 values to the car and the car responds to the remote with a struct.
+To establish communication, the remote must add the car as a peer (so it is necessary to know its MAC address), the car will take every packet sent to it and respond to the sender with a struct. The car does not need to know the remote's MAC, because it registers it when the first communication with the remote occurs. If the car does not receive an ESP-NOW packet every 50ms, the timeout will activate stopping the car.
+
+The array that the car expects to receive is composed as follows: [gear, state, steering, motor, convergence]
+  - gear: quite simple, it is simply the requested gear
+  - state: can have 3 values: 9-stop 1-forward 2-backward
+  - steering: requested steering value, goes from 0 to 1023 where 512 is center
+  - motor: requested speed value, goes from 0 to 1023 where 512 is stopped, 0 is backward at maximum and 1023 forward at maximum
+  - convergence: value that goes from 0 to 180, it is the offset value of the servo when it is in the center, it serves to correct any mechanical or assembly errors.
+
+Bluetooth classic
+***
+Bluetooth classic currently only supports digital commands: it is therefore not possible to control the motors by giving them more or less power, same for steering. I don't think it will be implemented in the future as BLE already supports these commands, but if someone wants to work on it, they are welcome.
+This protocol provides that a letter is sent to the car, for each letter corresponds a behavior. below a summary table
+
+| Received Letter | Motor | Steering |
+|---------------|---------------|---------------|
+| S | Stop | Center |
+| F | Forward | Center |
+| B | Backward | Center |
+| R | Stop | Right |
+| L | Stop | Left |
+| G | Forward | Left |
+| I | Forward | Right |
+| H | Backward | Left |
+| J | Backward | Right |
+Nothing will be replied to the remote. when a bluetooth connection is detected, espnow stops being listened to.
+
+BLE
+***
+There is still a lot of work to do on BLE, for now we have only implemented a first integration, you can find details also in the documentation for developers, but essentially a GATT server is created with two services, one RO and one WR, each of which will have different characteristics.
+**pService** is designed for data to read, **pServiceAbilitazione** for data to send.
+To control the car, it is necessary to send it an array of two values, both from 0 to 100, which will be the requested speed and steering values.
+Example app with app inventor: **LINK**

@@ -1,0 +1,24 @@
+Benvenuto nella wiki di C.R.A.S.H.!
+
+
+***
+
+# Wiki Links
+
+* [Guida di installazione](./Installation)
+
+* [Funzionamento del codice e consigli di modifica](./For-Developers-and-Tinkerers)
+
+***
+
+
+# Cosa è Crash
+
+Crash è essenzialmente un sistema open source di interconnessione tra macchinina e telecomandi di vario tipo, è pensato per adattarsi all'hardware di ogni macchinina che puoi trovare in vendita, senza modificare il core del progetto.
+L'alta adattabilità del progetto è stat ottenuta grazie al file **config.hpp** che contiene tutte le impostazioni della macchinina.
+I protocolli di trasmissione dati dipendono dal microcontrollore della famiglia esp32 che si sceglie per la scheda: esp-now è sempre disponibile laddove il Bluetooth classic e il BLE sono disponibili solo su certe versioni.
+Il bluetooth è pensato per funzionare con gli smartphone mentre esp-now per telecomandi personalizzati.
+
+in futuro verranno resi disponibili vari progetti per tipi di schede per diverse macchinine RC.
+
+Il codice è stato mantenuto estremamente semplice in modo che anche i principianti possano metterci mano.

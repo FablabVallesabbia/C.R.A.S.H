@@ -1,0 +1,24 @@
+Welcome to the C.R.A.S.H. wiki!
+
+
+***
+
+# Wiki Links
+
+* [Installation guide](./Installation)
+
+* [Code operation and modification tips](./For-Developers-and-Tinkerers)
+
+***
+
+
+# What is Crash
+
+Crash is essentially an open source interconnection system between car and remotes of various types, it is designed to adapt to the hardware of every car you can find for sale, without modifying the core of the project.
+The high adaptability of the project was obtained thanks to the **config.hpp** file which contains all the settings of the car.
+The data transmission protocols depend on the ESP32 family microcontroller chosen for the board: ESP-NOW is always available while Bluetooth classic and BLE are available only on certain versions.
+Bluetooth is designed to work with smartphones while ESP-NOW for custom remotes.
+
+In the future, various projects for types of boards for different RC cars will be made available.
+
+The code has been kept extremely simple so that even beginners can tinker with it.

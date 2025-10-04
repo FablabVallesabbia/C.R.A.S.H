@@ -1,0 +1,37 @@
+## Modifying the config.hpp file
+***
+To adapt the firmware to your own car, modify ONLY the config.hpp file, here you find the configuration of pins and features to enable/disable.
+
+
+
+## How it works
+***
+At the top of the file are the functions to enable:
+```
+#define AttivaBuzzer
+#define AbilitaTimeout
+#define AbilitaBluetooth
+#define AbilitaBLE
+#define EscPosteriore
+#define ServoAnteriore
+#define FakeL298Posteriore
+#define FakeL298Anteriore
+#define L293dPosteriore
+#define LetturaBatteria
+```
+-**AttivaBuzzer** activates the sound at startup and in case of timeout and gear change.
+-**AbilitaTimeout** Enables Timeout in case of loss of connection with the esp-now remote, it is recommended to leave it active, this function allows the car to stop completely when it does not detect incoming data for 200ms
+-**AbilitaBluetooth** activates the esp32 bluetooth classic, not available for all boards, with which it is possible to communicate with compatible devices, such as the smartphone.
+-**AbilitaBluetooth** activates the esp32 bluetooth classic, not available for all boards, with which it is possible to communicate with compatible devices, such as the smartphone.
+-**EscPosteriore** activates the control of the rear motor via ESC.
+-**ServoAnteriore** activates the steering control via a servo motor.
+-**FakeL298Posteriore** activates the control of the rear motor via a fake L293, of those with the red boards that are found on amazon.
+-**FakeL298Anteriore** activates the steering control via a fake L293, of those with the red boards that are found on amazon.
+-**L293dPosteriore** activates the control of the rear motor via L293D, plausibly compatible also with L298
+-**LetturaBatteria** activates battery monitoring and sends it to the remote.
+
+***
+After the functions to enable, there is the pinout, in which you will have to assign the pins for the functions activated just now.
+
+***
+After the pinout, we find the parameters, set them according to your own configuration.

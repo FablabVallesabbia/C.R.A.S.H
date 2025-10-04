@@ -1,0 +1,52 @@
+#include <Arduino.h>
+#include <ESP32Servo.h>
+
+Servo myServo;
+const int servoPin = 21;
+String inputString = "";
+bool stringComplete = false;
+
+void setup() {
+  Serial.begin(115200);
+  myServo.attach(servoPin);
+  myServo.write(90); // posizione centrale iniziale
+  delay(1000);
+  Serial.println("ESP32 Servo Controller");
+  Serial.println("Invia un numero da 0 a 180 per controllare il servo");
+  Serial.println("Posizione iniziale: 90 gradi");
+}
+
+void loop() {
+  // Leggi dati dalla seriale
+  while (Serial.available()) {
+    char inChar = (char)Serial.read();
+    
+    if (inChar == '\n') {
+      stringComplete = true;
+    } else {
+      inputString += inChar;
+    }
+  }
+  
+  // Processa il comando quando la stringa è completa
+  if (stringComplete) {
+    int servoPosition = inputString.toInt();
+    
+    // Limita il valore tra 0 e 180 gradi
+    servoPosition = constrain(servoPosition, 0, 180);
+    
+    // Muovi il servo
+    myServo.write(servoPosition);
+    
+    // Feedback all'utente
+    Serial.print("Servo posizionato a: ");
+    Serial.print(servoPosition);
+    Serial.println(" gradi");
+    
+    // Reset per il prossimo comando
+    inputString = "";
+    stringComplete = false;
+  }
+  
+  delay(10); // Piccolo delay per stabilità
+}

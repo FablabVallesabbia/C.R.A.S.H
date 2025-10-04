@@ -1,0 +1,26 @@
+## Development environment
+***
+The choice of development environment fell on PlatformIO, however with slight modifications it should be possible to compile the project also with ArduinoIDE. Apart from the ESP32Servo library, all the other libraries used are preinstalled in the Arduino framework, so it should not be problematic to compile it.
+
+## Adding motor drivers
+***
+In the file **gestionemotori.hpp** are the instructions to command the motors, everything is based on two functions: one for the rear motor and one for the steering motor.
+The function **CommandRearMotor** receives as parameters MotorState and MotorSpeed, two integers that indicate the state of the motor (forward, backward and stopped) and the requested speed of the motor (512 stopped, 0 backward at maximum, 1024 forward at maximum). These data are received directly from the remote.
+This function only takes care of commanding the pins to which the driver is connected to move the motor, it is the function to modify if you want to add a driver.
+The ValSteering function accepts as parameter only an integer that indicates the steering value: 512-center, 0-left 1024-right.
+This function is very similar to the function described above: it only takes care of commanding the front motor. Note that only in the case of servo motor will analog steering be available, while choosing a driver for dc motors (eg: L293) the steering will be digital. In case of digital steering, a steering boost system has been introduced to not overload the motor. This simple system does nothing but activate the motor at its maximum power for x time, then it will decrease its power through pwm control. the boost time and the pwm value are configurable in the file **config.hpp**
+
+## File bluetooth.hpp
+***
+In this file the bluetooth classic is managed: values are taken from the bluetooth serial and used to command the car, for the moment it allows gear change controls and steering/rear motor are both digital. No feedback is sent to the bluetooth remote.
+
+## File BLE.hpp
+***
+In this file BLE is configured and managed, a bit more complex than bluetooth classic, but here too we tried to keep everything as simple as possible.
+BLE creates a server with two Services with their characteristics. The service **pService** is read-only and serves to read the battery value and other values, we use it mainly for debug.
+In the service **pAdvertising** is in writing and allows receiving data from an eventual remote. Here a bool **abilitazione** is received which when false, disables esp-now control to activate control via BLE; only when this variable is false, the other variable **DatoRicevutoBLE** is listened to by the car.
+
+## File main.cpp
+***
+In this file we find the main logic of the program, its setup and its loop.
+All other functions and files are called from here.

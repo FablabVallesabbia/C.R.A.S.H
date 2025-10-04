@@ -1,0 +1,39 @@
+## Come comunicare con la scheda
+
+ESP-NOW
+***
+Esp now è un protocollo proprietario di espressif, utilizzabile solo da schede con a bordo esp32, è stato scelto per la semplicità di programmazione e perchè di fatto non richiese hardware aggiuntivo, la portata è comunque ottima.
+Guardando il codice del telecomando capirete che è veramente semplice comunicare con C.R.A.S.H.: il telecomando invia un array di 5 valori alla macchinina e la macchinina risponde al telecomando con una struct.
+Per stabilire la comunicazione, il teleocmando deve aggiungere come peer la macchinina (quindi è necessario conoscere il suo mac-address), la macchinina prenderà ogni pacchetto inviatole e risponderà al mittente con una struct. La macchinina non ha bisogno di sapere il mac del telecomando, perchè lo registra quando avviene la prima comunicazione con il telecomando.Se la macchinina non riceve ogni 50ms un pacchetto da esp-now, il timeout si attiverà fermando la macchinina.
+
+L'array che la macchinina si aspetta di ricevere è così composto: [marcia,stato,sterzo,motore,convergenza]
+  - marcia: piuttosto semplice, è semplicemente la marcia richiesta 
+  - stato: può avere 3 valori: 9-stop 1-avanti 2-indietro
+  - sterzo: valore dello sterzo richiesto, va da 0 a 1023 dove 512 è il centro
+  - motore: valore della velocità richiesta, va da 0 a 1023 dove 512 è ferma, 0 è indietro al massimo e 1023 avanti al massimo
+  - convergenza: valore che va da 0 a 180, è il valore offset del servomotore quando sta al centro, serve per correggere eventuali errori meccanici o di montaggio.  
+
+Bluetooth classic
+***
+Il bluetooth classic per ora supporta solamente comandi digitali: non è possibile quindi comandare i motori dandogli più o meno potenza, idem per lo sterzo. non credo verrà implementato in futuro in quanto il BLE già supporta questi comandi, ma se qualcuno volesse lavorarci è il benvenuto.
+Questo protocollo prevede che alla macchinina venga inviata una lettera, per ogni lettera corrisponde un comportamento. di seguito una tabella riassuntiva
+
+| Lettera ricevuta | Motore | Sterzo |
+|---------------|---------------|---------------|
+| S | Fermo | Centro |
+| F | Avanti | Centro |
+| B | Indietro | Centro |
+| R | Fermo | Destra |
+| L | Fermo | Sinistra |
+| G | Avanti | Sinistra |
+| I | Avanti | Destra |
+| H | Indietro | Sinistra |
+| J | Indietro | Destra |
+Al telecomando non verrà risposto nulla. quando una connessione bluetooth viene rilevata, espnow smette di essere ascoltato.
+
+BLE
+***
+Sul BLe c'è ancora molto da lavorare, per ora abbiamo realizzato solo una prima integrazione, trovate dei dettagli anche nella dicumentazione per sviluppatori, ma essenzialmente viene creaot un server GATT con due servizi, uno in RO e una in WR, ogniuno delle quali avrà diverse caratteristiche.
+**pService** è pensato per i dati da leggere, **pServiceAbilitazione** per i dati da inviare.
+Per comandare la macchinina è necessario inviarle un array di due valori, entrambi da 0 a 100, che saranno il valore della velocità e dello sterzo richiesti.
+Esempio app con app inventor: **LINK**

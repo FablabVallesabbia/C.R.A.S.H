@@ -1,0 +1,26 @@
+## Ambiente di sviluppo
+***
+La scelta dell'ambiente di sviluppo è ricaduta su platformio, tuttavia con leggere modifiche dovrebbe essere possibile compilare il progetto anche con ArduinoIDE.A parte la libreria ESP32Servo, tutte le altre librerie utilizzate sono preinstallate nel framework di arduino, per cui non dovrebbe essere problematico compilarlo.
+
+## Aggiunta di driver per motori
+***
+Nel file **gestionemotori.hpp** si trovano le istruzioni per comandare i motori, tutto si basa su due funzioni:una per il motore posteriore e una per il motore dello sterzo.
+La funzione **CommandRearMotor** riceve come parametri MotorState e MotorSpeed, due interi che indicano lo stato del motore(avanti, indietro e fermo) e la velocità richiesta del motore (512 fermo, 0 indietro al massimo, 1024 avanti al massimo).Questi dati vengono ricevuti direttamente dal telecomando.
+Questa funzione si occupa solo di comandare i pin a cui il driver è collegato per far muovere il motore, è la funzione da modificare se si vuole aggiungere un driver.
+La funzione ValSteering accetta come parametro solo un intero che indica il valore dello sterzo: 512-centro, 0-sinistra 1024-destra.
+Questa funzione è molto simile alla funzione descritta sopra: si occupa solamente di comandare il motore anteriore.Notare che solamente in caso di servomotore sarà disponibile uno sterzo analogico, mentre scegliendo un driver per motori dc (es:L293) lo sterzo sarà digitale.In caso di sterzo digitale è stato introdotto un sistema di boost dello sterzo per non sovraccaricare il motore. Questo semplice sistema non fa altro che attivare il motore al massimo della sua potenza per x tempo, dopodichè ne diminuirà la potenza attraverso un controllo pwm. il tempo di boost e il valore del pwm sono configurabili nel file **config.hpp**
+
+## File bluetooth.hpp
+***
+In questo file viene gestito il bluetooth classic: vengono presi dei valori dalla seriale bluetooth e usati per comandare la macchinina, per il momento consente i controlli di cambio marcia e sterzo/motore posteriore sono entrambi digitali.Nessun feedback viene inviato al telecomando bluetooth.
+
+## File BLE.hpp
+***
+In questo file viene configurato e gestito il BLE, un pò più complesso del bluetooth classic, ma anche qui si è cercato di tenere tutto più semplice possibile.
+Il BLE crea un server con due Servizi con le relative caratteristiche.Il servizio **pService** è in sola lettura e serve per leggere il valore della batteria e altri valori, lo utilizziamo sopratutto per debug.
+Nel servizio **pAdvertising** è in scrittura e permette di ricevere dati da un eventuale telecomando. Qui si riceve un bool **abilitazione** che quando falso, disattiva il controllo esp-now per attivare il controllo tramite BLE; solo quando questa variabile è falsa, l'altra variabile **DatoRicevutoBLE** viene ascoltata dalla macchinina.
+
+## File main.cpp
+***
+In questo file troviamo la logica principale del programma, il suo setup e il suo loop.
+Tutte le altre funzioni e file vengono richiamate da qui.

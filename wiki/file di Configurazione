@@ -1,0 +1,37 @@
+## Modifica del file config.hpp
+***
+Per adattare il firmware alla propria macchinina, modificare SOLO il file config.hpp, qui si trova la configurazione dei pin e delle funzionalità da attivare/disattivare.
+
+
+
+## Come funziona
+***
+In alto nel file si trovano le funzioni da abilitare:
+```
+#define AttivaBuzzer
+#define AbilitaTimeout
+#define AbilitaBluetooth
+#define AbilitaBLE
+#define EscPosteriore
+#define ServoAnteriore
+#define FakeL298Posteriore
+#define FakeL298Anteriore
+#define L293dPosteriore
+#define LetturaBatteria
+```
+-**AttivaBuzzer** attiva il suono all'avvio e in caso di timeout e cambio marcia.
+-**AbilitaTimeout** Abilita il Timeout in caso di perdita di connessione col telecomando esp-now, si consiglia di lasciarlo attivo, questa funzione permette alla macchinina di arrestarsi completamente quando non rileva dati in arrivo per 200ms
+-**AbilitaBluetooth** attiva il bluetooth classic di esp32, non disponibile per tutte le schede, con il quale è possibile comunicare con dispositivi compatibili, come lo smarthpone.
+-**AbilitaBluetooth** attiva il bluetooth classic di esp32, non disponibile per tutte le schede, con il quale è possibile comunicare con dispositivi compatibili, come lo smarthpone.
+-**EscPosteriore** attiva il controllo del motore posteriore tramite ESC.
+-**ServoAnteriore** attiva il controllo dello sterzo tramite un servomotore.
+-**FakeL298Posteriore** attiva il controllo del motore posteriore tramite un L293 finto, di quelli con le schede rosse che si trovano su amazon.
+-**FakeL298Anteriore** attiva il controllo dello sterzo tramite un L293 finto, di quelli con le schede rosse che si trovano su amazon.
+-**L293dPosteriore** attiva il controllo del motore posteriore tramite L293D, plausibilmente compatibile anche con L298
+-**LetturaBatteria** attiva il monitoraggio della batteria e lo invia al telecomando.
+
+***
+Dopo le funzioni da abilitare, si trova il pinout, in cui bisognerà assegnare i pin per le funzioni attivate poco fa.
+
+***
+Dopo il pinout, troviamo i parametri, impostarli a seconda della propria ocnfigurazione.
