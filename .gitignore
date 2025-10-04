@@ -1,1 +1,5 @@
 /.pio
+./src/config_MK_J.hpp
+./src/config_MK_X.hpp
+./src/config_MK_XI.hpp
+./src/config_MKXII.hpp
