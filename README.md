@@ -1,92 +1,59 @@
 # C.R.A.S.H.
 
-Firmware open source per il controllo di ogni tipo di macchinina RC.
+Open-source firmware for controlling any type of RC car.
 
-## Descrizione
+## Description
 
-Questo è un progetto comunitario del FabLab Vallesabbia, consiste in un firmware customizzabile per auto RC, pienamente configurabile attraverso un file senza bisogno di scrivere codice. Utilizza un microcontrollore ESP32 per gestire la comunicazione wireless oltre al controllo i motori e servi e il monitoraggio della batteria. Supporta molteplici protocolli di comunicazione: ESP-NOW, Bluetooth Classic e Bluetooth Low Energy (BLE).
-Il core del progetto consiste nella semplicità di programamzione: date un occhiata al codice e vi renderete conto che è estremamente semplice, in modo che chiunque possa creare telecomandi o device per il controllo.
-Per maggiori informazioni: **LINK**
+This is a community project by FabLab Vallesabbia. It consists of customizable firmware for RC cars, fully configurable through a file without the need to write code. It uses an ESP32 microcontroller to manage wireless communication as well as motor and servo control and battery monitoring. It supports multiple communication protocols: ESP-NOW, Bluetooth Classic, and Bluetooth Low Energy (BLE).  
+The core of the project is its programming simplicity: take a look at the code and you will realize it is extremely simple, so that anyone can create remotes or control devices.  
+For more information: **LINK**
 
-## Caratteristiche Principali
-  Esempi di codice per comandare le macchinine:
-  - Codice telecomando: **LINK**
-  - Codice python per pc che utilizza gamepad o volanti logitech per il controllo: **LINK**
+## Main Features
 
-### Caratteristiche Principali
+Examples of code to control RC cars:
+- Remote control code: **LINK**
+- Python code for PC using gamepads or Logitech wheels for control: **LINK**
 
-- **Comunicazione Wireless**:
-  - ESP-NOW per comunicazione con telecomandi autocostruiti o modificati.
-  - Bluetooth Classic per controllo tramite smartphone.
-  - Bluetooth Low Energy (BLE) per controllo tramite smartphone.
-  Il bluetooth classic/BLE sono utilizzabili a seconda della serie del microcontrollore ESP32 che sceglierete (ES: esp wroom ha solo il bluetooth classic, mentre esp32-C3 ha solo il BLE)
+### Main Features
 
-- **Controllo Motori**:
-Il controllo dei motori è customizzabile a seconda della configurazione della vostra macchinina, ed è molto semplice aggiungere altri driver, vedere il file gestionemotori.hpp e la wiki per ulteriori dettagli.
-I motori/driver attualmente supportarti sono:
+- **Wireless Communication**:
+  - ESP-NOW for communication with custom-built or modified remotes.
+  - Bluetooth Classic for control via smartphone.
+  - Bluetooth Low Energy (BLE) for control via smartphone.  
+  Bluetooth Classic/BLE can be used depending on the ESP32 microcontroller series you choose (e.g.: ESP-WROOM only has Bluetooth Classic, while ESP32-C3 only has BLE).
+
+- **Motor Control**:  
+  Motor control is customizable depending on your RC car's configuration, and it is very easy to add other drivers. See the file gestionemotori.hpp and the wiki for further details.  
+  The currently supported motors/drivers are:
   - L293D
-  - Amazon Fake L293 (breakout board rossa con chip smd)
-  - ESC per motori brushless
-  - Servo per sterzo anteriore
+  - Amazon Fake L293 (red breakout board with SMD chip)
+  - ESC for brushless motors
+  - Servo for front steering
 
-- **Monitoraggio Batteria**:
-  - Lettura tensione batteria customizzabile sia in precisione che in tensione.
+- **Battery Monitoring**:
+  - Battery voltage reading customizable in both precision and voltage.
 
-- **Sicurezza e Feedback**:
-  - Timeout per perdita connessione.
-  - Buzzer per feedback sonoro.
-  - LED RGB per indicazione stati (rosso, verde, blu).
+- **Safety and Feedback**:
+  - Timeout for connection loss.
+  - Buzzer for sound feedback.
+  - RGB LED to indicate states (red, green, blue).
 
-- **Configurabilità**:
-Abilitazione/disabilitazione moduli tramite il metodo define. questo permette di adattare il firmware alla propria macchinina senza dover modificare nessuna aprte del programma.
+- **Configurability**:  
+  Enabling/disabling modules via define method. This allows adapting the firmware to your RC car without needing to modify any part of the program.
 
-## Requisiti Hardware
+## Hardware Requirements
 
-- **Microcontrollore**: ESP32.
-- **Motori e Servi**: Servo o motore DC per sterzo, motore brushless o DC per motore posteriore.
-- **Alimentazione**: qualunque batteria va bene, la sezione di lettura batteria è configurabile inserendo i parametri della propria batteria.
+- **Microcontroller**: ESP32.
+- **Motors and Servos**: Servo or DC motor for steering, brushless or DC motor for rear drive.
+- **Power Supply**: any battery is fine, the battery reading section is configurable by inserting your battery parameters.
 
-## Installazione
+## Installation
 
-1. **Installa PlatformIO**:
-   - Scarica e installa Visual Studio Code.
-   - Installa l'estensione PlatformIO.
+1. **Install PlatformIO**:
+   - Download and install Visual Studio Code.
+   - Install the PlatformIO extension.
 
-2. **Clona il Repository**:
+2. **Clone the Repository**:
    ```bash
    git clone https://github.com/MiticoDan/MK_X-codice-test-1.git
    cd MK_X-codice-test-1
-   ```
-
-3. **Configura la macchinina**:
-   - Apri il progetto in VS Code con PlatformIO.
-   - Modifica il file config.hpp con le impostazioni desiderate
-
-4. **Carica il Firmware**:
-   - Collega l'ESP32 al computer.
-
-
-## Wiki
-  Si prega di leggere la wiki per guide e informazioni più dettagliate.
-
-## TODO
-- [ ] Aggiungere supporto per più tipi di driver motori (es. TB6612FNG).
-- [ ] Migliorare l'interfaccia BLE.
-- [ ] Creare WebServer per configurare i parametri senza dover ricompilare 
-- [ ] Creare Configuratore e caricatore grafico 
-
-
-
-## Contributi
-
-Contributi sono benvenuti! Apri un issue o una pull request su GitHub.
-
-## Licenza
-
-Questo progetto è distribuito sotto licenza MIT. Vedi il file `LICENSE` per dettagli.
-
-## Contatti
-- **Autore**: FabLabValleSabbia
-- **INFO**: (https://www.fablabvallesabbia.it/)
-- **Repository**: [GitHub](https://github.com/MiticoDan/MK_X-codice-test-1)</content>
-<parameter name="filePath">c:\Users\Daniel\Desktop\Codice MK X\MK_X codice test 1\README.md
